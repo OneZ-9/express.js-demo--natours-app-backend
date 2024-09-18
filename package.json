@@ -1,0 +1,16 @@
+{
+  "name": "natours",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "demo node express and mongodb project",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Chamod Tharuka",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "nodemon": "^3.1.4"
+  }
+}
