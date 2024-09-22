@@ -1,7 +1,6 @@
 import express from 'express';
 import {
-  checkBody,
-  checkID,
+  // checkID,
   createTour,
   deleteTour,
   getAllTours,
@@ -13,7 +12,7 @@ import {
 // As a convention we named each router as router
 export const router = express.Router();
 
-router.param('id', checkID);
+// router.param('id', checkID);
 
-router.route('/').get(getAllTours).post(checkBody, createTour);
+router.route('/').get(getAllTours).post(createTour);
 router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);

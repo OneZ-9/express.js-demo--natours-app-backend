@@ -16,8 +16,9 @@ app.use((req, res, next) => {
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`),
 );
 
 // 2) ROUTE HANDLERS
@@ -76,7 +77,7 @@ const createTour = (req, res) => {
           tour: newTour,
         },
       });
-    }
+    },
   );
 };
 
