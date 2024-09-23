@@ -1,32 +1,42 @@
 import Tour from '../models/tourModel.js';
 
+// const tours = await Tour.find()
+//   .where('duration')
+//   .equals(5)
+//   .where('difficulty')
+//   .equals('easy');
+
 // CONTROLLERS
 export const getAllTours = async (req, res) => {
   try {
-    // const tours = await Tour.find()
-    //   .where('duration')
-    //   .equals(5)
-    //   .where('difficulty')
-    //   .equals('easy');
-
     // BUILD QUERY
-    // 1) FILTERING
-    // Create hard copy of query object
+    // 1A) FILTERING
+    // Create deep copy of query object
     const queryObj = { ...req.query };
+
+    // filtering query params from the copy
     const excludeFields = ['page', 'sort', 'limit', 'fields'];
     excludeFields.forEach((el) => delete queryObj[el]);
     // console.log(queryObj, req.query);
 
-    // 2) ADVANCE FILTERING
+    // 1B) ADVANCE FILTERING
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
     // console.log(JSON.parse(queryStr));
 
-    // { difficulty: 'easy', duration: { $gte: 5 } }
-    // { difficulty: 'easy', duration: { gte: 5 } }
     // gte, gt, lte, lt
+    // { difficulty: 'easy', duration: { gte: 5 } }
+    // { difficulty: 'easy', duration: { $gte: 5 } }
 
-    const query = Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
+
+    // 2) SORTING
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
 
     // EXECUTE QUERY
     const tours = await query;
